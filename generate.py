@@ -40,7 +40,7 @@ def is_complete(fields):
 
 def make_html(record):
     fields = record['fields']
-    data_json = json.dumps(fields, ensure_ascii=True).replace('</script>', '<\\/script>')
+    data_json = json.dumps(fields, ensure_ascii=False)
     name = fields.get('學生姓名', '学生')
 
     return f'''<!DOCTYPE html>
@@ -224,8 +224,9 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
         </button>
     </div>
 </main>
+<script type="application/json" id="report-data">{data_json}</script>
 <script>
-const DATA = {data_json};
+const DATA = JSON.parse(document.getElementById('report-data').textContent);
 
 function parseCoreKnowledge(text) {{
     if (!text) return {{ items: [], summary: '' }};
@@ -274,7 +275,7 @@ function render(f) {{
     const core = parseCoreKnowledge(f['本节课核心'] || '');
     const coreList = document.getElementById('coreList');
     coreList.innerHTML = core.items.map(item =>
-        '<li class="flex items-center gap-2.5"><span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings:\'FILL\' 1;">check_circle</span><span class="text-body-md">' + item + '</span></li>'
+        "<li class=\\"flex items-center gap-2.5\\"><span class=\\"material-symbols-outlined text-tertiary text-lg\\" style=\\"font-variation-settings:'FILL' 1;\\">check_circle</span><span class=\\"text-body-md\\">" + item + "</span></li>"
     ).join('');
     document.getElementById('coreSummary').textContent = core.summary || '—';
 
