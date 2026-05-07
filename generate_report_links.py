@@ -104,12 +104,12 @@ def main():
         # 1. 获取 token
         print("\n正在获取飞书访问令牌...")
         token = get_tenant_access_token()
-        print("✓ Token 获取成功")
+        print("[OK] Token 获取成功")
 
         # 2. 获取所有记录
         print("\n正在读取表格记录...")
         records = get_all_records(token)
-        print(f"✓ 共读取到 {len(records)} 条记录")
+        print(f"[OK] 共读取到 {len(records)} 条记录")
 
         # 3. 处理每条记录
         print("\n正在处理记录...")
@@ -124,7 +124,7 @@ def main():
 
             # 检查数据是否完整
             if not check_record_complete(record):
-                print(f"  ⚠ {student_name} - 数据不完整，跳过")
+                print(f"  [SKIP] {student_name} - 数据不完整，跳过")
                 skip_count += 1
                 continue
 
@@ -134,10 +134,10 @@ def main():
             try:
                 # 更新记录
                 update_record_link(token, record_id, report_link)
-                print(f"  ✓ {student_name} - 链接已更新: {report_link}")
+                print(f"  [OK] {student_name} - 链接已更新: {report_link}")
                 success_count += 1
             except Exception as e:
-                print(f"  ✗ {student_name} - 更新失败: {str(e)}")
+                print(f"  [ERROR] {student_name} - 更新失败: {str(e)}")
                 error_count += 1
 
         # 4. 输出结果
@@ -149,7 +149,7 @@ def main():
         print("=" * 50)
 
     except Exception as e:
-        print(f"\n✗ 程序运行出错: {str(e)}")
+        print(f"\n[ERROR] 程序运行出错: {str(e)}")
         return 1
 
     return 0
