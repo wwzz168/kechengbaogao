@@ -87,9 +87,9 @@ def update_record_link(token, record_id, link):
     return True
 
 def check_record_complete(record):
-    """检查记录是否有核心数据（高光视频和分析非必填）"""
+    """检查记录是否有核心数据"""
     fields = record.get('fields', {})
-    required_fields = ['學生姓名', '課程名稱', '上課時間', '本节课核心', '答題正確率']
+    required_fields = ['學生姓名', '課程名稱', '上課時間', '本节课核心']
     for field in required_fields:
         if not fields.get(field):
             return False
