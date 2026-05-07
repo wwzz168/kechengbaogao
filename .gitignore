@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+reports/
+*.html
+!index.html
+前端代码.txt
+课后报告.html
+课后报告2.html
