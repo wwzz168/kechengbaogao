@@ -1,0 +1,16 @@
+[Unit]
+Description=Feishu Course Report Generator Service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/kechengbaogao
+Environment="FEISHU_APP_ID=cli_a971a71ab0395cce"
+Environment="FEISHU_APP_SECRET=T94yU3Og4QHiWxqmw4DNreSCipBmlJf7"
+ExecStart=/usr/bin/python3 /var/www/kechengbaogao/server.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
