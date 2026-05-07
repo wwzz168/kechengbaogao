@@ -40,7 +40,7 @@ def is_complete(fields):
 
 def make_html(record):
     fields = record['fields']
-    data_json = json.dumps(fields, ensure_ascii=False)
+    data_json = json.dumps(fields, ensure_ascii=True).replace('</script>', '<\\/script>')
     name = fields.get('學生姓名', '学生')
 
     return f'''<!DOCTYPE html>
