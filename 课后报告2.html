@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>课程报告 - 少儿教育</title>
+    <style>
+        /* ==================== 基础样式重置 ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ==================== 全局变量定义 - 低饱和度正向色调 ==================== */
+        :root {
+            /* 主色调 - 温暖柔和橙（美术课） */
+            --primary-orange: #E8A87C;
+            --primary-orange-light: #FDF4EE;
+            --primary-orange-bg: #FAE5D3;
+
+            /* 辅助色 - 柔和蓝（数学课） */
+            --primary-blue: #7EB8DA;
+            --primary-blue-light: #EAF6FC;
+            --primary-blue-bg: #D4E8F5;
+
+            /* 成功/成长色 - 低饱和度绿色 */
+            --success-color: #81C784;
+            --success-light: #E8F5E9;
+            --success-bg: #C8E6C9;
+
+            /* 未完成色 - 柔和灰色（非负面） */
+            --neutral-color: #B0BEC5;
+            --neutral-light: #F5F5F5;
+            --neutral-bg: #ECEFF1;
+
+            /* 文字颜色 */
+            --text-primary: #4A4A4A;
+            --text-secondary: #6B7280;
+            --text-light: #9CA3AF;
+            --text-white: #FFFFFF;
+
+            /* 背景颜色 */
+            --bg-color: #F7F5F3;
+            --card-bg: #FFFFFF;
+
+            /* 阴影与圆角 */
+            --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius-lg: 12px;
+            --radius-md: 10px;
+            --radius-sm: 8px;
+        }
+
+        /* ==================== 页面整体布局 ==================== */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 24px;
+        }
+
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* ==================== 页面头部 ==================== */
+        .header {
+            padding: 20px 16px 28px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 16px;
+        }
+
+        /* 课程类型背景色 */
+        .header.math {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #9AC8E8 100%);
+        }
+
+        .header.art {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #F0B890 100%);
+        }
+
+        .header-title {
+            color: var(--text-white);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 14px;
+            color: var(--text-white);
+        }
+
+        .student-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-right: 10px;
+        }
+
+        .student-name {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .student-grade {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* ==================== 通用卡片样式 ==================== */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-title-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        /* ==================== 模块0: 课程信息 ==================== */
+        .course-info .info-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px dashed #E8E8E8;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            width: 72px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .info-highlight {
+            background: var(--success-light);
+            padding: 14px;
+            border-radius: var(--radius-md);
+            margin-top: 10px;
+        }
+
+        .info-highlight-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--success-color);
+            margin-bottom: 8px;
+        }
+
+        .info-highlight-content {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ==================== 模块1: 本节课核心 ==================== */
+        .lesson-core .knowledge-point {
+            background: var(--success-light);
+            padding: 14px;
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+        }
+
+        .knowledge-label {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .knowledge-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* 多知识点列表 */
+        .knowledge-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .knowledge-item {
+            background: var(--success-light);
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+        }
+
+        .knowledge-item-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--success-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .knowledge-item-content {
+            flex: 1;
+        }
+
+        .knowledge-item-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .knowledge-item-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .lesson-summary {
+            background: linear-gradient(135deg, #FEF9E7 0%, #FDF6E3 100%);
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border-left: 3px solid #E8D4A8;
+        }
+
+        .lesson-summary p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* 兜底样式 */
+        .fallback-content {
+            background: var(--neutral-light);
+            padding: 14px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .fallback-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        /* ==================== 模块2: 课中答题情况 - 全正向 ==================== */
+        .learning-result .result-chart {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-bg {
+            fill: none;
+            stroke: var(--neutral-bg);
+            stroke-width: 7;
+        }
+
+        .progress-ring-fill {
+            fill: none;
+            stroke: var(--success-color);
+            stroke-width: 7;
+            stroke-linecap: round;
+            stroke-dasharray: 226.2;
+            stroke-dashoffset: 113.1; /* 50% 掌握率 */
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-percent {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .progress-label {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .result-stats {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-value.correct {
+            color: var(--success-color);
+        }
+
+        .stat-value.unanswered {
+            color: var(--neutral-color);
+        }
+
+        /* 正向鼓励文案 */
+        .encourage-text {
+            background: var(--success-light);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            margin-top: 14px;
+            font-size: 13px;
+            color: #5B8A5B;
+            display: flex;
+            align-items: center;
+        }
+
+        .encourage-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* 知识点陈列 */
+        .knowledge-display {
+            margin-top: 14px;
+        }
+
+        .knowledge-display-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .knowledge-display-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .knowledge-display-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--success-light);
+            border-radius: var(--radius-sm);
+        }
+
+        .knowledge-display-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--success-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .knowledge-display-name {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* 展开题目详情 */
+        .detail-toggle {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            margin-top: 12px;
+            background: var(--neutral-light);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .detail-toggle:hover {
+            background: #E8E8E8;
+        }
+
+        .detail-toggle-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-toggle-icon {
+            margin-left: 4px;
+            transition: transform 0.3s;
+        }
+
+        .detail-toggle.expanded .detail-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 已答对题目列表 - 仅展示正确题目 */
+        .correct-questions {
+            display: none;
+            margin-top: 14px;
+        }
+
+        .correct-questions.show {
+            display: block;
+        }
+
+        .question-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--success-light);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+        }
+
+        .question-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--success-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .question-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .question-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            background: var(--success-color);
+            color: white;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        /* ==================== 模块3: 上课高光视频 ==================== */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #5A7A8A 0%, #7A9AAA 100%);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-placeholder {
+            text-align: center;
+            color: var(--text-white);
+        }
+
+        .video-play-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .video-play-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+        }
+
+        .video-play-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-white);
+            margin-left: 3px;
+        }
+
+        .video-duration {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .video-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .video-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: none;
+        }
+
+        .video-action-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .video-action-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-white);
+        }
+
+        .video-description {
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .video-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .video-tag {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: var(--neutral-light);
+            color: var(--text-secondary);
+        }
+
+        /* 视频兜底 */
+        .video-fallback {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .fallback-img-placeholder {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* ==================== 模块4: 老师点评 ==================== */
+        .teacher-comment .comment-card {
+            background: linear-gradient(135deg, #FEF9E7 0%, #FDF6E3 100%);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            border-left: 3px solid #D4C4A8;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .teacher-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary-orange-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .teacher-info {
+            flex: 1;
+        }
+
+        .teacher-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .teacher-title {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .comment-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .comment-highlight {
+            background: linear-gradient(transparent 60%, #E8D4A8 60%);
+            padding: 0 2px;
+        }
+
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .comment-time {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        /* 语音播放按钮 */
+        .voice-btn {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            background: var(--primary-orange-bg);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: none;
+        }
+
+        .voice-btn:hover {
+            background: #F5D9B8;
+        }
+
+        .voice-btn.playing {
+            background: var(--success-light);
+        }
+
+        .voice-icon {
+            font-size: 14px;
+            margin-right: 4px;
+        }
+
+        .voice-text {
+            font-size: 12px;
+            color: #A08A6A;
+        }
+
+        .voice-btn.playing .voice-text {
+            color: #5B8A5B;
+        }
+
+        /* 通用正向文案兜底 */
+        .comment-fallback {
+            background: var(--success-light);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .comment-fallback-text {
+            font-size: 14px;
+            color: #5B8A5B;
+        }
+
+        /* ==================== 模块5: 下节预告 ==================== */
+        .next-lesson {
+            display: none; /* 默认隐藏，有数据时显示 */
+        }
+
+        .next-lesson.show {
+            display: block;
+        }
+
+        .preview-card {
+            background: linear-gradient(135deg, var(--primary-blue-light) 0%, #EAF6FC 100%);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .preview-icon {
+            margin-right: 8px;
+        }
+
+        .preview-content {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .preview-suggestion {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+        }
+
+        .suggestion-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #5A8AB5;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .suggestion-list {
+            list-style: none;
+        }
+
+        .suggestion-list li {
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 5px 0;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .suggestion-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #5A8AB5;
+        }
+
+        /* ==================== 底部操作区 ==================== */
+        .footer-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 20px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--success-color) 0%, #A5D6A7 100%);
+            color: var(--text-white);
+            box-shadow: 0 2px 8px rgba(129, 199, 132, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(129, 199, 132, 0.35);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid #E8E8E8;
+        }
+
+        .btn-secondary:hover {
+            background: var(--neutral-light);
+        }
+
+        /* ==================== 响应式适配 ==================== */
+        @media screen and (max-width: 375px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .card {
+                padding: 14px;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+
+            .progress-ring {
+                width: 75px;
+                height: 75px;
+            }
+
+            .progress-percent {
+                font-size: 22px;
+            }
+
+            .result-chart {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .result-stats {
+                margin-left: 0;
+                margin-top: 14px;
+                width: 100%;
+            }
+
+            .video-container {
+                height: 160px;
+            }
+        }
+
+        @media screen and (min-width: 415px) {
+            .container {
+                max-width: 414px;
+            }
+        }
+
+        /* ==================== 动画效果 ==================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0s; }
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.2s; }
+        .card:nth-child(4) { animation-delay: 0.3s; }
+        .card:nth-child(5) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <header class="header math" id="pageHeader">
+        <h1 class="header-title">课程报告</h1>
+        <p class="header-subtitle">每一次进步，都值得被记录</p>
+        <div class="student-info">
+            <div class="student-avatar">🐱</div>
+            <div>
+                <div class="student-name" id="studentName">楚楚</div>
+                <div class="student-grade" id="studentGrade">小学三年级</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 课程信息 -->
+        <section class="card course-info">
+            <h2 class="card-title">
+                <span class="card-title-icon" style="background: var(--primary-blue-light);">📚</span>
+                课程信息
+            </h2>
+            <div class="info-grid">
+                <div class="info-row">
+                    <span class="info-label">课程名称</span>
+                    <span class="info-value">变脏的城市</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">上课时间</span>
+                    <span class="info-value">2026-04-15 14:00</span>
+                </div>
+                <div class="info-highlight">
+                    <div class="info-highlight-title">📌 课程重点</div>
+                    <div class="info-highlight-content">理解等待时间和总时间的关系，对多项任务进行排序，找到时间最短的安排。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 模块1: 本节课核心 -->
+        <section class="card lesson-core" id="lessonCore">
+            <h2 class="card-title">
+                <span class="card-title-icon" style="background: var(--primary-blue-light);">📖</span>
+                本节课核心
+            </h2>
+            <div id="lessonCoreContent">
+                <!-- 正常状态 - 多知识点展示 -->
+                <div class="knowledge-list">
+                    <div class="knowledge-item">
+                        <div class="knowledge-item-icon">✓</div>
+                        <div class="knowledge-item-content">
+                            <div class="knowledge-item-name">等待时间概念</div>
+                            <div class="knowledge-item-desc">理解等待时间的含义，学会计算总等待时间</div>
+                        </div>
+                    </div>
+                    <div class="knowledge-item">
+                        <div class="knowledge-item-icon">✓</div>
+                        <div class="knowledge-item-content">
+                            <div class="knowledge-item-name">快者优先原则</div>
+                            <div class="knowledge-item-desc">掌握让耗时短的人先完成任务的优化策略</div>
+                        </div>
+                    </div>
+                    <div class="knowledge-item">
+                        <div class="knowledge-item-icon">✓</div>
+                        <div class="knowledge-item-content">
+                            <div class="knowledge-item-name">实际应用能力</div>
+                            <div class="knowledge-item-desc">将排队知识应用到生活场景中合理安排</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lesson-summary">
+                    <p>本节课帮助孩子理解等待时间的概念，学会用快者优先原则来优化排队安排，锻炼观察力和推理力，提升解决实际问题的能力。</p>
+                </div>
+            </div>
+            <!-- 兜底状态 -->
+            <div id="lessonCoreFallback" style="display: none;">
+                <div class="fallback-content">
+                    <div class="fallback-icon">📚</div>
+                    <p>本节课核心知识点正在更新中</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 模块2: 课中答题情况 -->
+        <section class="card learning-result" id="learningResult">
+            <h2 class="card-title">
+                <span class="card-title-icon" style="background: var(--success-light);">📊</span>
+                课中答题情况
+            </h2>
+            <div id="learningResultContent">
+                <!-- 正常状态 -->
+                <div class="result-chart">
+                    <div class="progress-ring">
+                        <svg width="90" height="90">
+                            <circle class="progress-ring-bg" cx="45" cy="45" r="36"></circle>
+                            <circle class="progress-ring-fill" cx="45" cy="45" r="36" id="progressFill"></circle>
+                        </svg>
+                        <div class="progress-text">
+                            <div class="progress-percent" id="progressPercent">50%</div>
+                            <div class="progress-label">掌握率</div>
+                        </div>
+                    </div>
+                    <div class="result-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">答题数</span>
+                            <span class="stat-value" id="totalQuestions">10题</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">已掌握</span>
+                            <span class="stat-value correct" id="correctCount">5题</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">待巩固</span>
+                            <span class="stat-value unanswered" id="unansweredCount">5题</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="encourage-text">
+                    <span class="encourage-icon">🌟</span>
+                    <span id="encourageText">很棒！楚楚在图形规律方面有很好的观察力，继续练习会越来越熟练！</span>
+                </div>
+                <!-- 知识点陈列 -->
+                <div class="knowledge-display">
+                    <div class="knowledge-display-title">知识点陈列</div>
+                    <div class="knowledge-display-list">
+                        <div class="knowledge-display-item">
+                            <div class="knowledge-display-icon">✓</div>
+                            <div class="knowledge-display-name">单列多人排队问题</div>
+                        </div>
+                        <div class="knowledge-display-item">
+                            <div class="knowledge-display-icon">✓</div>
+                            <div class="knowledge-display-name">双列多人排队问题</div>
+                        </div>
+                        <div class="knowledge-display-item">
+                            <div class="knowledge-display-icon">✓</div>
+                            <div class="knowledge-display-name">多列多人排队问题</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 兜底状态 -->
+            <div id="learningResultFallback" style="display: none;">
+                <div class="fallback-content">
+                    <div class="fallback-icon">📊</div>
+                    <p>正在统计学习数据，精彩表现即将呈现</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 模块3: 上课高光视频 -->
+        <section class="card highlight-video" id="highlightVideo">
+            <h2 class="card-title">
+                <span class="card-title-icon" style="background: var(--primary-orange-light);">🎬</span>
+                上课高光视频
+            </h2>
+            <div id="videoContent">
+                <!-- 单一视频展示 -->
+                <div class="video-container">
+                    <div class="video-actions">
+                        <button class="video-action-btn" onclick="fullscreenVideo()" title="全屏">
+                            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                        </button>
+                        <button class="video-action-btn" onclick="downloadVideo()" title="下载">
+                            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        </button>
+                        <button class="video-action-btn" onclick="shareVideo()" title="分享">
+                            <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 2.96-1.34 2.96-3s-1.3-3-2.96-3c-1.66 0-3 1.34-3 3 0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.35 2.96 2.96 2.96s2.96-1.35 2.96-2.96c0-1.61-1.35-2.96-2.96-2.96z"/></svg>
+                        </button>
+                    </div>
+                    <div class="video-placeholder">
+                        <button class="video-play-btn" aria-label="播放视频" onclick="playVideo()">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                        <div class="video-duration">视频时长 12秒</div>
+                    </div>
+                </div>
+                <p class="video-description">记录了楚楚课堂上精彩的表现瞬间，展示了孩子对图形规律的敏锐观察力。</p>
+                <div class="video-tags">
+                    <span class="video-tag">专注观察</span>
+                    <span class="video-tag">思路清晰</span>
+                    <span class="video-tag">主动发言</span>
+                </div>
+            </div>
+            </div>
+            <!-- 兜底状态 -->
+            <div id="videoFallback" style="display: none;">
+                <div class="video-container video-fallback">
+                    <div class="fallback-img-placeholder">📸</div>
+                    <div class="video-duration">高光视频正在生成中</div>
+                </div>
+                <p class="video-description">精彩的高光片段正在精心制作中，稍后即可观看楚楚的精彩表现</p>
+            </div>
+        </section>
+
+        <!-- 模块4: 老师点评 -->
+        <section class="card teacher-comment" id="teacherComment">
+            <h2 class="card-title">
+                <span class="card-title-icon" style="background: var(--primary-orange-light);">💬</span>
+                老师点评
+            </h2>
+            <div id="commentContent">
+                <!-- 正常状态 -->
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <div class="teacher-avatar">👩‍🏫</div>
+                        <div class="teacher-info">
+                            <div class="teacher-name">椰汁芒果糕老师</div>
+                        </div>
+                    </div>
+                    <p class="comment-content">
+                        楚楚今天表现非常棒！在图形规律环节，她<span class="comment-highlight">快速发现了形状变化的规律</span>，并且能够用自己的语言清晰地表达出来。继续保持这种学习热情，进步会越来越大！
+                    </p>
+                    <div class="comment-footer">
+                        <span class="comment-time">2026年4月14日 16:30</span>
+                        <button class="voice-btn" id="voiceBtn" onclick="playVoice()">
+                            <span class="voice-icon">🔊</span>
+                            <span class="voice-text">播放语音</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- 兜底状态 -->
+            <div id="commentFallback" style="display: none;">
+                <div class="comment-fallback">
+                    <p class="comment-fallback-text">本节课表现很棒，继续加油！期待下次更精彩的表现！</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 模块5: 下节预告 -->
+        <section class="card next-lesson show" id="nextLesson">
+            <h2 class="card-title">
+                <span class="card-title-icon" style="background: var(--primary-blue-light);">🔜</span>
+                下节预告
+            </h2>
+            <div class="preview-card">
+                <div class="preview-title">
+                    <span class="preview-icon">📚</span>
+                    数字规律探索
+                </div>
+                <p class="preview-content">
+                    下节课我们将学习数字序列中的规律，通过观察数字之间的变化，发现有趣的数学奥秘，进一步培养逻辑思维能力。
+                </p>
+                <div class="preview-suggestion">
+                    <div class="suggestion-label">
+                        <span>💡</span>
+                        预习建议
+                    </div>
+                    <ul class="suggestion-list">
+                        <li>复习1-100的数字顺序</li>
+                        <li>尝试观察生活中的数字排列</li>
+                        <li>观看"数字的魔法"小视频</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 底部操作按钮 - 仅保留分享 -->
+        <div class="footer-actions">
+            <button class="btn btn-primary" onclick="shareReport()">分享</button>
+        </div>
+    </main>
+
+    <script>
+        // ==================== 数据模拟 ====================
+        const mockData = {
+            hasLessonCore: true,
+            hasLearningResult: true,
+            hasVideo: true,
+            hasComment: true,
+            hasNextLesson: true,
+            courseType: 'math',
+            masteryRate: 50,
+            totalQuestions: 10,
+            correctCount: 5,
+            unansweredCount: 5
+        };
+
+        // ==================== 页面初始化 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initPage();
+            animateProgress();
+        });
+
+        function initPage() {
+            const header = document.getElementById('pageHeader');
+            if (mockData.courseType === 'math') {
+                header.classList.remove('art');
+                header.classList.add('math');
+            } else {
+                header.classList.remove('math');
+                header.classList.add('art');
+            }
+
+            handleFallback('lessonCoreContent', 'lessonCoreFallback', mockData.hasLessonCore);
+            handleFallback('learningResultContent', 'learningResultFallback', mockData.hasLearningResult);
+            handleFallback('videoContent', 'videoFallback', mockData.hasVideo);
+            handleFallback('commentContent', 'commentFallback', mockData.hasComment);
+
+            const nextLesson = document.getElementById('nextLesson');
+            if (mockData.hasNextLesson) {
+                nextLesson.classList.add('show');
+            } else {
+                nextLesson.classList.remove('show');
+            }
+        }
+
+        function handleFallback(contentId, fallbackId, hasData) {
+            const content = document.getElementById(contentId);
+            const fallback = document.getElementById(fallbackId);
+            if (hasData) {
+                content.style.display = 'block';
+                fallback.style.display = 'none';
+            } else {
+                content.style.display = 'none';
+                fallback.style.display = 'block';
+            }
+        }
+
+        // ==================== 进度条动画 ====================
+        function animateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const circumference = 226.2;
+            const offset = circumference * (1 - mockData.masteryRate / 100);
+
+            setTimeout(function() {
+                progressFill.style.strokeDashoffset = offset;
+            }, 300);
+        }
+
+        // ==================== 题目详情展开 ====================
+        function toggleDetail() {
+            const toggle = document.getElementById('detailToggle');
+            const questions = document.getElementById('correctQuestions');
+
+            toggle.classList.toggle('expanded');
+            questions.classList.toggle('show');
+        }
+
+        // ==================== 视频操作 ====================
+        function playVideo() {
+            showToast('视频播放功能开发中');
+        }
+
+        function fullscreenVideo() {
+            showToast('全屏播放功能开发中');
+        }
+
+        function downloadVideo() {
+            showToast('视频下载功能开发中');
+        }
+
+        function shareVideo() {
+            showToast('视频分享功能开发中');
+        }
+
+        // ==================== 语音播放 ====================
+        let isPlayingVoice = false;
+
+        function playVoice() {
+            const voiceBtn = document.getElementById('voiceBtn');
+
+            if (!isPlayingVoice) {
+                voiceBtn.classList.add('playing');
+                voiceBtn.querySelector('.voice-icon').textContent = '🔊';
+                voiceBtn.querySelector('.voice-text').textContent = '正在播放...';
+                isPlayingVoice = true;
+
+                setTimeout(function() {
+                    voiceBtn.classList.remove('playing');
+                    voiceBtn.querySelector('.voice-icon').textContent = '🔊';
+                    voiceBtn.querySelector('.voice-text').textContent = '播放语音';
+                    isPlayingVoice = false;
+                }, 3000);
+            } else {
+                voiceBtn.classList.remove('playing');
+                voiceBtn.querySelector('.voice-icon').textContent = '🔊';
+                voiceBtn.querySelector('.voice-text').textContent = '播放语音';
+                isPlayingVoice = false;
+            }
+        }
+
+        // ==================== 底部按钮 ====================
+        function shareReport() {
+            showToast('分享功能开发中');
+        }
+
+        // ==================== Toast提示 ====================
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 9999;
+                animation: fadeInOut 2s ease forwards;
+            `;
+            toast.textContent = message;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+                    20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(toast);
+
+            setTimeout(function() {
+                toast.remove();
+                style.remove();
+            }, 2000);
+        }
+
+        // ==================== 测试兜底状态 ====================
+        function testFallbackState() {
+            mockData.hasLessonCore = false;
+            mockData.hasLearningResult = false;
+            mockData.hasVideo = false;
+            mockData.hasComment = false;
+            mockData.hasNextLesson = false;
+            initPage();
+        }
+    </script>
+</body>
+</html>
