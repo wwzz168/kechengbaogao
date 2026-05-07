@@ -254,7 +254,7 @@ function parseSuggestions(text) {{
 function parseKnowledgeTags(val) {{
     if (!val) return [];
     if (Array.isArray(val)) return val.map(t => String(t).trim()).filter(Boolean);
-    return String(val).split(/[\s\n]+/).map(t => t.trim()).filter(Boolean);
+    return String(val).split(/[\\s\\n]+/).map(t => t.trim()).filter(Boolean);
 }}
 
 function parseRate(val) {{
