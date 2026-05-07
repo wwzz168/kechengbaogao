@@ -2,6 +2,7 @@
 import requests
 import json
 import os
+import re
 
 FEISHU_APP_ID = os.environ.get('FEISHU_APP_ID', 'cli_a971a71ab0395cce')
 FEISHU_APP_SECRET = os.environ.get('FEISHU_APP_SECRET', 'T94yU3Og4QHiWxqmw4DNreSCipBmlJf7')
@@ -35,7 +36,14 @@ def get_all_records(token):
     return all_records
 
 def is_complete(fields):
-    return all(fields.get(f) for f in ['學生姓名', '課程名稱', '上課時間'])
+    """检查记录是否有完整数据（高光视频和分析非必填）"""
+    required_fields = ['學生姓名', '課程名稱', '上課時間', '课程重点', '本节课核心',
+                       '答題正確率', '答題總數', '答題正確數', '答错数', '課程知識點',
+                       '答题情况评价', '老师点评', '主講老師', '下节课预告', '下节课预习建议']
+    for field in required_fields:
+        if not fields.get(field):
+            return False
+    return True
 
 def make_html(record):
     fields = record['fields']
@@ -245,23 +253,22 @@ function parseSuggestions(text) {{
     return text.split('\\n').map(l => l.trim().replace(/^\\d+[\\.、]\\s*/, '')).filter(Boolean);
 }}
 
-function parseKnowledgeTags(text) {{
-    if (!text) return [];
-    if (Array.isArray(text)) return text.map(t => String(t).trim()).filter(Boolean);
-    return String(text).split(/[\\s\\n]+/).map(t => t.trim()).filter(Boolean);
+function parseKnowledgeTags(val) {{
+    if (!val) return [];
+    if (Array.isArray(val)) return val.map(t => String(t).trim()).filter(Boolean);
+    return String(val).split(/[\s\n]+/).map(t => t.trim()).filter(Boolean);
 }}
 
 function parseRate(val) {{
     if (!val) return 0;
-    if (typeof val === 'object') {{
-        if (Array.isArray(val) && val[0]) val = val[0];
-        if (val.text) val = val.text;
-    }}
+    if (Array.isArray(val)) val = val[0];
+    if (typeof val === 'object' && val.text) val = val.text;
     return parseFloat(String(val).replace('%', '')) || 0;
 }}
 
 function parseVideoUrl(val) {{
     if (!val) return '';
+    if (Array.isArray(val)) val = val[0];
     if (typeof val === 'object' && val.link) return val.link;
     if (typeof val === 'string') return val;
     return '';
@@ -272,13 +279,14 @@ function render(f) {{
     document.getElementById('pageTitle').textContent = name ? name + '的课后学习报告' : '课后学习报告';
     document.title = name ? '课程报告 - ' + name : '课程报告';
     document.getElementById('courseName').textContent = f['課程名稱'] || '—';
-    document.getElementById('courseTime').textContent = f['上課時間'] || '—';
+    const courseTime = Array.isArray(f['上課時間']) ? f['上課時間'].join(', ') : (f['上課時間'] || '—');
+    document.getElementById('courseTime').textContent = courseTime;
     document.getElementById('courseKey').textContent = f['课程重点'] || '—';
 
     const core = parseCoreKnowledge(f['本节课核心'] || '');
     const coreList = document.getElementById('coreList');
     coreList.innerHTML = core.items.map(item =>
-        '<li class=\"flex items-center gap-2.5\"><span class=\"material-symbols-outlined text-tertiary text-lg\" style=\"font-variation-settings:\\'FILL\\' 1;\">check_circle</span><span class=\"text-body-md\">' + item + '</span></li>'
+        "<li class=\\"flex items-center gap-2.5\\"><span class=\\"material-symbols-outlined text-tertiary text-lg\\" style=\\"font-variation-settings:'FILL' 1;\\">check_circle</span><span class=\\"text-body-md\\">" + item + "</span></li>"
     ).join('');
     document.getElementById('coreSummary').textContent = core.summary || '—';
 
@@ -295,8 +303,8 @@ function render(f) {{
 
     const tags = parseKnowledgeTags(f['課程知識點'] || '');
     document.getElementById('knowledgeTags').innerHTML = tags.map(tag =>
-        '<span class=\"px-2 py-0.5 bg-secondary-container/20 text-secondary border border-secondary-container rounded-full text-[11px] font-semibold\">' + tag + '</span>'
-    ).join('') || '<span class=\"text-label-sm text-on-surface-variant\">暂无数据</span>';
+        '<span class="px-2 py-0.5 bg-secondary-container/20 text-secondary border border-secondary-container rounded-full text-[11px] font-semibold">' + tag + '</span>'
+    ).join('') || '<span class="text-label-sm text-on-surface-variant">暂无数据</span>';
 
     document.getElementById('quizComment').textContent = f['答题情况评价'] || f['成长寄语'] || '—';
 
@@ -310,8 +318,8 @@ function render(f) {{
 
     const suggestions = parseSuggestions(f['下节课预习建议'] || '');
     document.getElementById('suggestionList').innerHTML = suggestions.map(s =>
-        '<li class=\"flex items-start gap-2\"><span class=\"text-tertiary mt-1 text-[10px]\">●</span><span class=\"text-body-md text-on-surface-variant\">' + s + '</span></li>'
-    ).join('') || '<li class=\"text-body-md text-on-surface-variant\">暂无建议</li>';
+        '<li class="flex items-start gap-2"><span class="text-tertiary mt-1 text-[10px]">●</span><span class="text-body-md text-on-surface-variant">' + s + '</span></li>'
+    ).join('') || '<li class="text-body-md text-on-surface-variant">暂无建议</li>';
 }}
 
 function toggleVideo() {{
