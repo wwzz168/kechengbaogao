@@ -36,10 +36,8 @@ def get_all_records(token):
     return all_records
 
 def is_complete(fields):
-    """检查记录是否有完整数据（高光视频和分析非必填）"""
-    required_fields = ['學生姓名', '課程名稱', '上課時間', '课程重点', '本节课核心',
-                       '答題正確率', '答題總數', '答題正確數', '答错数', '課程知識點',
-                       '答题情况评价', '老师点评', '主講老師', '下节课预告', '下节课预习建议']
+    """检查记录是否有核心数据（高光视频和分析非必填）"""
+    required_fields = ['學生姓名', '課程名稱', '上課時間', '本节课核心', '答題正確率']
     for field in required_fields:
         if not fields.get(field):
             return False
