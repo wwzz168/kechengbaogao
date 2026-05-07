@@ -17,7 +17,8 @@ jobs:
 
       - run: pip install requests
 
-      - run: python generate.py
+      - name: Generate HTML Reports
+        run: python generate.py
         env:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
@@ -28,3 +29,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./reports
           force_orphan: true
+
+      - name: Update Feishu Links
+        run: python generate_report_links.py
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
