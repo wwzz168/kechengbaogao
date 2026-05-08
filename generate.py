@@ -110,8 +110,7 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
     button {{ display: none !important; }}
     body {{ background: white !important; }}
     .report-card {{ box-shadow: none !important; break-inside: avoid; }}
-}}
-</style>
+}}</style>
 </head>
 <body class="antialiased text-on-surface">
 <main class="pt-8 px-4 max-w-lg mx-auto pb-24">
@@ -418,6 +417,7 @@ def main():
     print(f"共 {len(records)} 条记录")
 
     generated = 0
+    html_files = []
     for record in records:
         fields = record.get('fields', {})
         if not is_complete(fields):
@@ -428,8 +428,25 @@ def main():
         filename = f"reports/{record_id}.html"
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(html)
+        html_files.append((filename, record_id, name))
         print(f"  生成: {filename} ({name})")
         generated += 1
+
+    # 用 playwright 截图生成 PNG
+    if html_files:
+        print("\n正在截图...")
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page(viewport={'width': 430, 'height': 900})
+            for filename, record_id, name in html_files:
+                abs_path = os.path.abspath(filename).replace('\\', '/')
+                page.goto(f'file:///{abs_path}')
+                page.wait_for_timeout(2000)
+                page.evaluate('document.querySelector("button").style.display="none"')
+                page.locator('main').screenshot(path=f'reports/{record_id}.png')
+                print(f"  截图: reports/{record_id}.png ({name})")
+            browser.close()
 
     print(f"\n完成，共生成 {generated} 个报告")
 
