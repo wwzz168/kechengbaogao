@@ -234,11 +234,6 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
         </div>
         <ul class="space-y-2" id="suggestionList"></ul>
     </div>
-    <div class="flex justify-center mt-6 mb-4">
-        <button onclick="saveScreenshot()" class="bg-[#81C784] text-white font-bold py-3 px-12 rounded-full shadow-lg active:scale-95 transition-transform flex items-center gap-2 text-sm">
-            <span class="material-symbols-outlined text-lg">download</span><span data-i18n="saveBtn">点击保存截图</span>
-        </button>
-    </div>
 </main>
 <script type="application/json" id="report-data">{data_json}</script>
 <script>
@@ -253,7 +248,7 @@ const I18N = {{
     knowledgeDetail: '知识点详情', noData: '暂无数据', quizEval: '答题情况评价',
     highlight: '课堂精彩瞬间', playBtn: '点击播放精彩瞬间', pauseBtn: '点击暂停',
     teacherComment: '老师点评', nextLesson: '下节预告', preview: '预习建议',
-    noSuggestion: '暂无建议', saveBtn: '点击保存截图'
+    noSuggestion: '暂无建议'
   }},
   'zh-TW': {{
     reportTitle: '的課後學習報告', reportTitleDefault: '課後學習報告',
@@ -263,7 +258,7 @@ const I18N = {{
     knowledgeDetail: '知識點詳情', noData: '暫無數據', quizEval: '答題情況評價',
     highlight: '課堂精彩瞬間', playBtn: '點擊播放精彩瞬間', pauseBtn: '點擊暫停',
     teacherComment: '老師點評', nextLesson: '下節預告', preview: '預習建議',
-    noSuggestion: '暫無建議', saveBtn: '點擊儲存截圖'
+    noSuggestion: '暫無建議'
   }},
   'en': {{
     reportTitle: "'s Learning Report", reportTitleDefault: 'Learning Report',
@@ -273,7 +268,7 @@ const I18N = {{
     knowledgeDetail: 'Knowledge Points', noData: 'No data', quizEval: 'Quiz Evaluation',
     highlight: 'Class Highlights', playBtn: 'Tap to Play', pauseBtn: 'Tap to Pause',
     teacherComment: "Teacher's Comment", nextLesson: 'Next Lesson', preview: 'Study Tips',
-    noSuggestion: 'No suggestions', saveBtn: 'Save Screenshot'
+    noSuggestion: 'No suggestions'
   }}
 }};
 
@@ -362,3 +357,72 @@ function render(f) {{
     ).join('') || '<span class="text-label-sm text-on-surface-variant">' + t.noData + '</span>';
 
     document.getElementById('quizComment').textContent = f['答题情况评价'] || f['成长寄语'] || '—';
+
+    const videoUrl = parseVideoUrl(f['高光视频']);
+    if (videoUrl) {{
+        document.getElementById('highlightVideo').src = videoUrl;
+    }} else {{
+        document.getElementById('videoSection').style.display = 'none';
+    }}
+    document.getElementById('videoComment').textContent = f['高光视频分析'] || '—';
+
+    document.getElementById('teacherName').textContent = f['主講老師'] || '—';
+    document.getElementById('teacherComment').textContent = f['老师点评'] || '—';
+    document.getElementById('nextLesson').textContent = f['下节课预告'] || '—';
+
+    const suggestions = parseSuggestions(f['下节课预习建议'] || '');
+    document.getElementById('suggestionList').innerHTML = suggestions.map(s =>
+        '<li class="flex items-start gap-2"><span class="text-tertiary mt-1 text-[10px]">●</span><span class="text-body-md text-on-surface-variant">' + s + '</span></li>'
+    ).join('') || '<li class="text-body-md text-on-surface-variant">' + t.noSuggestion + '</li>';
+}}
+
+function toggleVideo() {{
+    const video = document.getElementById('highlightVideo');
+    const cover = document.getElementById('videoCover');
+    const overlay = document.getElementById('videoOverlay');
+    if (!video.src) return;
+    if (video.paused) {{
+        cover.style.display = 'none';
+        overlay.classList.remove('show');
+        video.play();
+    }} else {{
+        video.pause();
+        overlay.classList.add('show');
+    }}
+    video.onended = () => overlay.classList.remove('show');
+}}
+
+
+render(DATA);
+</script>
+</body>
+</html>'''
+
+def main():
+    os.makedirs('reports', exist_ok=True)
+
+    print("获取飞书 token...")
+    token = get_token()
+
+    print("读取记录...")
+    records = get_all_records(token)
+    print(f"共 {len(records)} 条记录")
+
+    generated = 0
+    for record in records:
+        fields = record.get('fields', {})
+        if not is_complete(fields):
+            continue
+        record_id = record['record_id']
+        name = fields.get('學生姓名', record_id)
+        html = make_html(record)
+        filename = f"reports/{record_id}.html"
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(html)
+        print(f"  生成: {filename} ({name})")
+        generated += 1
+
+    print(f"\n完成，共生成 {generated} 个报告")
+
+if __name__ == '__main__':
+    main()
