@@ -97,9 +97,9 @@ tailwind.config = {{
 body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3; }}
 .report-card {{ background: white; border-radius: 12px; padding: 20px; box-shadow: 0px 2px 12px rgba(0,0,0,0.03); margin-bottom: 12px; }}
 .material-symbols-outlined {{ font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }}
-.video-wrapper {{ position: relative; width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #1b2e3c 0%, #2d4a5e 100%); border-radius: 12px; overflow: hidden; cursor: pointer; }}
-.video-wrapper video {{ width: 100%; height: 100%; object-fit: cover; display: none; }}
-.video-cover {{ position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }}
+.video-wrapper {{ position: relative; width: 100%; height: 420px; background: #000; border-radius: 12px; overflow: hidden; cursor: pointer; }}
+.video-wrapper video {{ width: 100%; height: 100%; object-fit: contain; display: none; }}
+.video-cover {{ position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #1b2e3c 0%, #2d4a5e 100%); }}
 .video-cover-icon {{ width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }}
 .video-wrapper:hover .video-cover-icon {{ background: rgba(255,255,255,0.28); transform: scale(1.06); }}
 .video-cover-label {{ color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }}
@@ -114,15 +114,15 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
     <div class="report-card">
         <div class="flex items-center gap-2.5 mb-3">
             <div class="p-1.5 bg-secondary-container/40 rounded-lg"><span class="material-symbols-outlined text-secondary text-xl">menu_book</span></div>
-            <h3 class="text-headline-lg">课程信息</h3>
+            <h3 class="text-headline-lg" data-i18n="courseInfo">课程信息</h3>
         </div>
         <div class="space-y-2.5">
             <div class="flex items-center justify-between">
-                <span class="text-label-md text-on-surface-variant">课程名称</span>
+                <span class="text-label-md text-on-surface-variant" data-i18n="courseName">课程名称</span>
                 <span class="text-body-md font-bold" id="courseName">—</span>
             </div>
             <div class="flex items-center justify-between">
-                <span class="text-label-md text-on-surface-variant">上课时间</span>
+                <span class="text-label-md text-on-surface-variant" data-i18n="courseTime">上课时间</span>
                 <span class="text-body-md" id="courseTime">—</span>
             </div>
             <div class="mt-3 p-3 bg-surface-container rounded-xl border border-dashed border-outline-variant">
@@ -133,7 +133,7 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
     <div class="report-card">
         <div class="flex items-center gap-2.5 mb-3">
             <div class="p-1.5 bg-tertiary-container/40 rounded-lg"><span class="material-symbols-outlined text-tertiary text-xl">auto_awesome</span></div>
-            <h3 class="text-headline-lg">核心知识点</h3>
+            <h3 class="text-headline-lg" data-i18n="coreKnowledge">核心知识点</h3>
         </div>
         <ul class="space-y-2 mb-4" id="coreList"></ul>
         <div class="p-3 bg-surface-container rounded-xl border border-dashed border-outline-variant">
@@ -143,7 +143,7 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
     <div class="report-card">
         <div class="flex items-center gap-2.5 mb-4">
             <div class="p-1.5 bg-primary-container/40 rounded-lg"><span class="material-symbols-outlined text-primary text-xl">analytics</span></div>
-            <h3 class="text-headline-lg">学习成果</h3>
+            <h3 class="text-headline-lg" data-i18n="learningResult">学习成果</h3>
         </div>
         <div class="flex flex-col items-center mb-5">
             <div class="relative w-24 h-24">
@@ -153,48 +153,48 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
                     <span class="text-lg font-bold" id="rateText">—</span>
-                    <span class="text-[10px] text-on-surface-variant">掌握率</span>
+                    <span class="text-[10px] text-on-surface-variant" data-i18n="masteryRate">掌握率</span>
                 </div>
             </div>
         </div>
         <div class="grid grid-cols-3 gap-2.5 mb-4">
             <div class="bg-surface-container p-3 rounded-xl text-center">
                 <div class="text-lg font-bold text-on-surface" id="totalCount">—</div>
-                <div class="text-label-sm text-on-surface-variant">答题数</div>
+                <div class="text-label-sm text-on-surface-variant" data-i18n="totalCount">答题数</div>
             </div>
             <div class="bg-surface-container p-3 rounded-xl text-center">
                 <div class="text-lg font-bold text-tertiary" id="correctCount">—</div>
-                <div class="text-label-sm text-on-surface-variant">已掌握</div>
+                <div class="text-label-sm text-on-surface-variant" data-i18n="correctCount">已掌握</div>
             </div>
             <div class="bg-surface-container p-3 rounded-xl text-center">
                 <div class="text-lg font-bold text-on-primary-fixed-variant" id="wrongCount">—</div>
-                <div class="text-label-sm text-on-surface-variant">待巩固</div>
+                <div class="text-label-sm text-on-surface-variant" data-i18n="wrongCount">待巩固</div>
             </div>
         </div>
         <div class="mb-4">
-            <div class="text-label-sm text-on-surface-variant mb-1.5">知识点详情</div>
+            <div class="text-label-sm text-on-surface-variant mb-1.5" data-i18n="knowledgeDetail">知识点详情</div>
             <div class="flex flex-wrap gap-1.5" id="knowledgeTags"></div>
         </div>
         <div class="p-3 bg-tertiary/10 rounded-xl">
             <div class="flex items-center gap-1.5 mb-1.5">
                 <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings:'FILL' 1;">stars</span>
-                <span class="text-label-md text-tertiary">答题情况评价</span>
+                <span class="text-label-md text-tertiary" data-i18n="quizEval">答题情况评价</span>
             </div>
             <p class="text-body-md text-on-surface-variant" id="quizComment">—</p>
         </div>
     </div>
-    <div class="report-card">
+    <div class="report-card" id="videoSection">
         <div class="flex items-center gap-2.5 mb-3">
             <div class="p-1.5 bg-secondary-container/40 rounded-lg"><span class="material-symbols-outlined text-secondary text-xl">videocam</span></div>
-            <h3 class="text-headline-lg">课堂精彩瞬间</h3>
+            <h3 class="text-headline-lg" data-i18n="highlight">课堂精彩瞬间</h3>
         </div>
         <div class="video-wrapper mb-3" id="videoWrapper" onclick="toggleVideo()">
             <video id="highlightVideo" preload="none" playsinline></video>
             <div class="video-cover" id="videoCover">
                 <div class="video-cover-icon">
-                    <span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings:'FILL' 1;">play_arrow</span>
+                    <span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings:'FILL' 1;" id="playIcon">play_arrow</span>
                 </div>
-                <span class="video-cover-label">点击播放精彩瞬间</span>
+                <span class="video-cover-label" data-i18n="playBtn">点击播放精彩瞬间</span>
             </div>
         </div>
         <p class="text-body-md text-on-surface-variant" id="videoComment">—</p>
@@ -202,7 +202,7 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
     <div class="report-card">
         <div class="flex items-center gap-2.5 mb-4">
             <div class="p-1.5 bg-primary-container/40 rounded-lg"><span class="material-symbols-outlined text-primary text-xl">forum</span></div>
-            <h3 class="text-headline-lg">老师点评</h3>
+            <h3 class="text-headline-lg" data-i18n="teacherComment">老师点评</h3>
         </div>
         <div class="mb-3"><div class="text-label-md font-bold text-on-surface" id="teacherName">—</div></div>
         <div class="p-4 bg-surface-container-low rounded-xl">
@@ -212,26 +212,60 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
     <div class="report-card">
         <div class="flex items-center gap-2.5 mb-3">
             <div class="p-1.5 bg-secondary-container/40 rounded-lg"><span class="material-symbols-outlined text-secondary text-xl">forward</span></div>
-            <h3 class="text-headline-lg">下节预告</h3>
+            <h3 class="text-headline-lg" data-i18n="nextLesson">下节预告</h3>
         </div>
         <p class="text-body-md text-on-surface-variant leading-relaxed" id="nextLesson">—</p>
     </div>
     <div class="report-card">
         <div class="flex items-center gap-2.5 mb-3">
             <div class="p-1.5 bg-tertiary-container/40 rounded-lg"><span class="material-symbols-outlined text-tertiary text-xl">lightbulb</span></div>
-            <h3 class="text-headline-lg">预习建议</h3>
+            <h3 class="text-headline-lg" data-i18n="preview">预习建议</h3>
         </div>
         <ul class="space-y-2" id="suggestionList"></ul>
     </div>
     <div class="flex justify-center mt-6 mb-4">
-        <button class="bg-[#81C784] text-white font-bold py-3 px-12 rounded-full shadow-lg active:scale-95 transition-transform flex items-center gap-2 text-sm">
-            <span class="material-symbols-outlined text-lg">share</span>分享报告
+        <button onclick="saveScreenshot()" class="bg-[#81C784] text-white font-bold py-3 px-12 rounded-full shadow-lg active:scale-95 transition-transform flex items-center gap-2 text-sm">
+            <span class="material-symbols-outlined text-lg">download</span><span data-i18n="saveBtn">点击保存截图</span>
         </button>
     </div>
 </main>
 <script type="application/json" id="report-data">{data_json}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 const DATA = JSON.parse(document.getElementById('report-data').textContent);
+
+const I18N = {{
+  'zh-CN': {{
+    reportTitle: '的课后学习报告', reportTitleDefault: '课后学习报告',
+    courseInfo: '课程信息', courseName: '课程名称', courseTime: '上课时间',
+    coreKnowledge: '核心知识点', learningResult: '学习成果',
+    masteryRate: '掌握率', totalCount: '答题数', correctCount: '已掌握', wrongCount: '待巩固',
+    knowledgeDetail: '知识点详情', noData: '暂无数据', quizEval: '答题情况评价',
+    highlight: '课堂精彩瞬间', playBtn: '点击播放精彩瞬间', pauseBtn: '点击暂停',
+    teacherComment: '老师点评', nextLesson: '下节预告', preview: '预习建议',
+    noSuggestion: '暂无建议', saveBtn: '点击保存截图'
+  }},
+  'zh-TW': {{
+    reportTitle: '的課後學習報告', reportTitleDefault: '課後學習報告',
+    courseInfo: '課程資訊', courseName: '課程名稱', courseTime: '上課時間',
+    coreKnowledge: '核心知識點', learningResult: '學習成果',
+    masteryRate: '掌握率', totalCount: '答題數', correctCount: '已掌握', wrongCount: '待鞏固',
+    knowledgeDetail: '知識點詳情', noData: '暫無數據', quizEval: '答題情況評價',
+    highlight: '課堂精彩瞬間', playBtn: '點擊播放精彩瞬間', pauseBtn: '點擊暫停',
+    teacherComment: '老師點評', nextLesson: '下節預告', preview: '預習建議',
+    noSuggestion: '暫無建議', saveBtn: '點擊儲存截圖'
+  }},
+  'en': {{
+    reportTitle: "'s Learning Report", reportTitleDefault: 'Learning Report',
+    courseInfo: 'Course Info', courseName: 'Course', courseTime: 'Date',
+    coreKnowledge: 'Key Knowledge', learningResult: 'Learning Results',
+    masteryRate: 'Mastery', totalCount: 'Questions', correctCount: 'Mastered', wrongCount: 'Review',
+    knowledgeDetail: 'Knowledge Points', noData: 'No data', quizEval: 'Quiz Evaluation',
+    highlight: 'Class Highlights', playBtn: 'Tap to Play', pauseBtn: 'Tap to Pause',
+    teacherComment: "Teacher's Comment", nextLesson: 'Next Lesson', preview: 'Study Tips',
+    noSuggestion: 'No suggestions', saveBtn: 'Save Screenshot'
+  }}
+}};
 
 function parseCoreKnowledge(text) {{
     if (!text) return {{ items: [], summary: '' }};
@@ -272,10 +306,23 @@ function parseVideoUrl(val) {{
     return '';
 }}
 
+function applyI18n(t) {{
+    document.querySelectorAll('[data-i18n]').forEach(el => {{
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+    }});
+}}
+
 function render(f) {{
+    const lang = (f['語言'] || f['语言'] || 'zh-CN').trim();
+    const t = I18N[lang] || I18N['zh-CN'];
+
     const name = f['學生姓名'] || '';
-    document.getElementById('pageTitle').textContent = name ? name + '的课后学习报告' : '课后学习报告';
-    document.title = name ? '课程报告 - ' + name : '课程报告';
+    document.getElementById('pageTitle').textContent = name ? name + t.reportTitle : t.reportTitleDefault;
+    document.title = name ? (lang === 'en' ? name + t.reportTitle : '课程报告 - ' + name) : t.reportTitleDefault;
+
+    applyI18n(t);
+
     document.getElementById('courseName').textContent = f['課程名稱'] || '—';
     const courseTime = Array.isArray(f['上課時間']) ? f['上課時間'].join(', ') : (f['上課時間'] || '—');
     document.getElementById('courseTime').textContent = courseTime;
@@ -302,12 +349,16 @@ function render(f) {{
     const tags = parseKnowledgeTags(f['課程知識點'] || '');
     document.getElementById('knowledgeTags').innerHTML = tags.map(tag =>
         '<span class="px-2 py-0.5 bg-secondary-container/20 text-secondary border border-secondary-container rounded-full text-[11px] font-semibold">' + tag + '</span>'
-    ).join('') || '<span class="text-label-sm text-on-surface-variant">暂无数据</span>';
+    ).join('') || '<span class="text-label-sm text-on-surface-variant">' + t.noData + '</span>';
 
     document.getElementById('quizComment').textContent = f['答题情况评价'] || f['成长寄语'] || '—';
 
     const videoUrl = parseVideoUrl(f['高光视频']);
-    if (videoUrl) document.getElementById('highlightVideo').src = videoUrl;
+    if (videoUrl) {{
+        document.getElementById('highlightVideo').src = videoUrl;
+    }} else {{
+        document.getElementById('videoSection').style.display = 'none';
+    }}
     document.getElementById('videoComment').textContent = f['高光视频分析'] || '—';
 
     document.getElementById('teacherName').textContent = f['主講老師'] || '—';
@@ -317,16 +368,39 @@ function render(f) {{
     const suggestions = parseSuggestions(f['下节课预习建议'] || '');
     document.getElementById('suggestionList').innerHTML = suggestions.map(s =>
         '<li class="flex items-start gap-2"><span class="text-tertiary mt-1 text-[10px]">●</span><span class="text-body-md text-on-surface-variant">' + s + '</span></li>'
-    ).join('') || '<li class="text-body-md text-on-surface-variant">暂无建议</li>';
+    ).join('') || '<li class="text-body-md text-on-surface-variant">' + t.noSuggestion + '</li>';
 }}
 
 function toggleVideo() {{
     const video = document.getElementById('highlightVideo');
     const cover = document.getElementById('videoCover');
+    const icon = document.getElementById('playIcon');
     if (!video.src) return;
-    video.style.display = 'block';
-    cover.style.display = 'none';
-    video.play();
+    if (video.paused) {{
+        video.style.display = 'block';
+        cover.style.display = 'none';
+        video.play();
+    }} else {{
+        video.pause();
+        cover.style.display = 'flex';
+        icon.textContent = 'play_arrow';
+    }}
+    video.onended = () => {{
+        cover.style.display = 'flex';
+        icon.textContent = 'play_arrow';
+    }};
+}}
+
+function saveScreenshot() {{
+    const btn = document.querySelector('button[onclick="saveScreenshot()"]');
+    btn.style.display = 'none';
+    html2canvas(document.body, {{ scale: 2, useCORS: true, allowTaint: true }}).then(canvas => {{
+        btn.style.display = '';
+        const a = document.createElement('a');
+        a.download = (document.getElementById('pageTitle').textContent || 'report') + '.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+    }}).catch(() => {{ btn.style.display = ''; }});
 }}
 
 render(DATA);
