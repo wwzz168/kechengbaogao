@@ -106,6 +106,11 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
 .video-wrapper:hover .video-cover-icon {{ background: rgba(255,255,255,0.28); transform: scale(1.06); }}
 .video-cover-label {{ color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }}
 .progress-circle {{ transition: stroke-dashoffset 1s ease; }}
+@media print {{
+    button {{ display: none !important; }}
+    body {{ background: white !important; }}
+    .report-card {{ box-shadow: none !important; break-inside: avoid; }}
+}}
 </style>
 </head>
 <body class="antialiased text-on-surface">
@@ -237,7 +242,6 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
     </div>
 </main>
 <script type="application/json" id="report-data">{data_json}</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 const DATA = JSON.parse(document.getElementById('report-data').textContent);
 
@@ -395,17 +399,7 @@ function toggleVideo() {{
 }}
 
 function saveScreenshot() {{
-    const btn = document.querySelector('button[onclick="saveScreenshot()"]');
-    btn.style.visibility = 'hidden';
-    html2canvas(document.querySelector('main'), {{ scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#F7F5F3' }}).then(canvas => {{
-        btn.style.visibility = '';
-        const a = document.createElement('a');
-        a.download = (document.getElementById('pageTitle').textContent || 'report') + '.png';
-        a.href = canvas.toDataURL('image/png');
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }}).catch(() => {{ btn.style.visibility = ''; }});
+    window.print();
 }}
 
 render(DATA);
