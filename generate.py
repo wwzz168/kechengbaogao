@@ -98,7 +98,9 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
 .report-card {{ background: white; border-radius: 12px; padding: 20px; box-shadow: 0px 2px 12px rgba(0,0,0,0.03); margin-bottom: 12px; }}
 .material-symbols-outlined {{ font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }}
 .video-wrapper {{ position: relative; width: 100%; height: 420px; background: #000; border-radius: 12px; overflow: hidden; cursor: pointer; }}
-.video-wrapper video {{ width: 100%; height: 100%; object-fit: contain; display: none; }}
+.video-wrapper video {{ width: 100%; height: 100%; object-fit: contain; }}
+.video-overlay {{ position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(0,0,0,0.35); }}
+.video-overlay.show {{ display: flex; }}
 .video-cover {{ position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #1b2e3c 0%, #2d4a5e 100%); }}
 .video-cover-icon {{ width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }}
 .video-wrapper:hover .video-cover-icon {{ background: rgba(255,255,255,0.28); transform: scale(1.06); }}
@@ -195,6 +197,11 @@ body {{ font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F7F5F3;
                     <span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings:'FILL' 1;" id="playIcon">play_arrow</span>
                 </div>
                 <span class="video-cover-label" data-i18n="playBtn">点击播放精彩瞬间</span>
+            </div>
+            <div class="video-overlay" id="videoOverlay">
+                <div class="video-cover-icon">
+                    <span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings:'FILL' 1;">play_arrow</span>
+                </div>
             </div>
         </div>
         <p class="text-body-md text-on-surface-variant" id="videoComment">—</p>
@@ -374,33 +381,31 @@ function render(f) {{
 function toggleVideo() {{
     const video = document.getElementById('highlightVideo');
     const cover = document.getElementById('videoCover');
-    const icon = document.getElementById('playIcon');
+    const overlay = document.getElementById('videoOverlay');
     if (!video.src) return;
     if (video.paused) {{
-        video.style.display = 'block';
         cover.style.display = 'none';
+        overlay.classList.remove('show');
         video.play();
     }} else {{
         video.pause();
-        cover.style.display = 'flex';
-        icon.textContent = 'play_arrow';
+        overlay.classList.add('show');
     }}
-    video.onended = () => {{
-        cover.style.display = 'flex';
-        icon.textContent = 'play_arrow';
-    }};
+    video.onended = () => overlay.classList.remove('show');
 }}
 
 function saveScreenshot() {{
     const btn = document.querySelector('button[onclick="saveScreenshot()"]');
-    btn.style.display = 'none';
-    html2canvas(document.body, {{ scale: 2, useCORS: true, allowTaint: true }}).then(canvas => {{
-        btn.style.display = '';
+    btn.style.visibility = 'hidden';
+    html2canvas(document.querySelector('main'), {{ scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#F7F5F3' }}).then(canvas => {{
+        btn.style.visibility = '';
         const a = document.createElement('a');
         a.download = (document.getElementById('pageTitle').textContent || 'report') + '.png';
         a.href = canvas.toDataURL('image/png');
+        document.body.appendChild(a);
         a.click();
-    }}).catch(() => {{ btn.style.display = ''; }});
+        document.body.removeChild(a);
+    }}).catch(() => {{ btn.style.visibility = ''; }});
 }}
 
 render(DATA);
